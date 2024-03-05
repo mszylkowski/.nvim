@@ -5,7 +5,9 @@ return {
 		"saadparwaiz1/cmp_luasnip",
 		"rafamadriz/friendly-snippets",
 		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-path",
 	},
+	event = "InsertEnter",
 	config = function()
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
@@ -21,10 +23,18 @@ return {
 				completion = cmp.config.window.bordered(),
 				documentation = cmp.config.window.bordered(),
 			},
+			completion = {
+				completeopt = "menu,menuone,noinsert,preview",
+			},
 			mapping = cmp.mapping.preset.insert({
+				-- Select the [n]ext item
+				["<C-n>"] = cmp.mapping.select_next_item(),
+				-- Select the [p]revious item
+				["<C-p>"] = cmp.mapping.select_prev_item(),
 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
-				["<C-Space>"] = cmp.mapping.complete(),
+				-- Manually trigger a completion from nvim-cmp.
+				["<C-space>"] = cmp.mapping.complete(),
 				["<C-e>"] = cmp.mapping.abort(),
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
 				["<Tab>"] = cmp.mapping(function(fallback)
@@ -53,12 +63,22 @@ return {
 					"i",
 					"s",
 				}),
+				["<C-l>"] = cmp.mapping(function()
+					if luasnip.expand_or_locally_jumpable() then
+						luasnip.expand_or_jump()
+					end
+				end, { "i", "s" }),
+				["<C-h>"] = cmp.mapping(function()
+					if luasnip.locally_jumpable(-1) then
+						luasnip.jump(-1)
+					end
+				end),
 			}),
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
-			}, {
 				{ name = "buffer" },
+				{ name = "path" },
 			}),
 		})
 
@@ -72,14 +92,12 @@ return {
 		})
 
 		cmp.setup.cmdline({ "/", "?" }, {
-			mapping = cmp.mapping.preset.cmdline(),
 			sources = {
 				{ name = "buffer" },
 			},
 		})
 
 		cmp.setup.cmdline(":", {
-			mapping = cmp.mapping.preset.cmdline(),
 			sources = cmp.config.sources({
 				{ name = "path" },
 			}, {

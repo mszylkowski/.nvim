@@ -1,2 +1,2 @@
-require("lua.options")
-require("lua.lazy")
+require("options")
+require("lazynvim")
