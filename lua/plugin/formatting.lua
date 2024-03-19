@@ -1,8 +1,4 @@
 return {
-	-- {
-	-- 	"tpope/vim-sleuth",
-	-- },
-	-- "gc" to comment visual regions/lines
 	{
 		"numToStr/Comment.nvim",
 		opts = {},
@@ -12,5 +8,10 @@ return {
 		event = "BufEnter",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = { signs = false },
+	},
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		config = true,
 	},
 }

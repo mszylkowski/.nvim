@@ -28,6 +28,7 @@ return {
 			lspconfig.lua_ls.setup({})
 			lspconfig.tsserver.setup({})
 			lspconfig.svelte.setup({})
+			lspconfig.pyright.setup({})
 
 			local map = function(keys, func, desc)
 				vim.keymap.set("n", keys, func, { desc = "LSP: " .. desc })
