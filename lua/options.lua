@@ -58,6 +58,7 @@ opt.fillchars = {
 	foldsep = " ",
 	diff = "/",
 	eob = " ",
+	vert = "▏",
 }
 
 if vim.fn.has("nvim-0.10") == 1 then

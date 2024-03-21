@@ -28,7 +28,16 @@ return {
 			lspconfig.lua_ls.setup({})
 			lspconfig.tsserver.setup({})
 			lspconfig.svelte.setup({})
-			lspconfig.pyright.setup({})
+			lspconfig.basedpyright.setup({
+				settings = {
+					basedpyright = {
+						analysis = {
+							typeCheckingMode = "standard",
+						},
+					},
+				},
+			})
+			lspconfig.ruff_lsp.setup({})
 
 			local map = function(keys, func, desc)
 				vim.keymap.set("n", keys, func, { desc = "LSP: " .. desc })
