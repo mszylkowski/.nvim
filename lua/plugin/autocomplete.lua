@@ -6,6 +6,7 @@ return {
 		"rafamadriz/friendly-snippets",
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-path",
+		"onsails/lspkind.nvim",
 	},
 	event = "InsertEnter",
 	config = function()
@@ -25,6 +26,13 @@ return {
 			},
 			completion = {
 				completeopt = "menu,menuone,noinsert,preview",
+			},
+			formatting = {
+				-- Show autocomplete symbols.
+				format = require("lspkind").cmp_format({
+					mode = "symbol",
+				}),
+				fields = { "kind", "abbr", "menu" },
 			},
 			mapping = cmp.mapping.preset.insert({
 				-- Select the [n]ext item

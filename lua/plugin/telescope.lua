@@ -3,17 +3,15 @@ return {
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope-ui-select.nvim",
+			"marcuscaisey/olddirs.nvim",
 		},
 		config = function()
 			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<C-p>", builtin.find_files, {})
-		end,
-	},
-	{
-		"nvim-telescope/telescope-ui-select.nvim",
-		config = function()
 			local actions = require("telescope.actions")
 
+			require("telescope").load_extension("ui-select")
+			require("telescope").load_extension("olddirs")
 			require("telescope").setup({
 				extensions = {
 					["ui-select"] = {
@@ -25,6 +23,9 @@ return {
 						i = {
 							["<esc>"] = actions.close,
 						},
+						n = {
+							["<leader>ds"] = false,
+						},
 					},
 				},
 				pickers = {
@@ -33,8 +34,7 @@ return {
 					},
 				},
 			})
-			require("telescope").load_extension("ui-select")
-
+			vim.keymap.set("n", "<C-p>", builtin.find_files, {})
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
 			vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
@@ -54,6 +54,12 @@ return {
 			vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 			vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch existing buffers" })
 			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+			vim.keymap.set(
+				"n",
+				"<leader>so",
+				require("telescope").extensions.olddirs.picker,
+				{ desc = "[S]earch [O]ld dirs" }
+			)
 
 			-- Slightly advanced example of overriding default behavior and theme
 			vim.keymap.set("n", "<leader>/", function()

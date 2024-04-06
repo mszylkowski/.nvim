@@ -14,4 +14,9 @@ return {
 		event = "InsertEnter",
 		config = true,
 	},
+	-- Highlights variable/word under cursor everywhere in the document.
+	{
+		"RRethy/vim-illuminate",
+		event = "VeryLazy",
+	},
 }

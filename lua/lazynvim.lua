@@ -15,6 +15,10 @@ require("lazy").setup({
 	spec = {
 		{ import = "plugin" },
 	},
+	ui = {
+		border = "rounded",
+		title = " LAZY NVIM ",
+	},
 	defaults = {
 		version = false,
 	},
