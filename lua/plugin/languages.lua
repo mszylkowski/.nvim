@@ -1,35 +1,39 @@
 return {
 	{
-		"williamboman/mason.nvim",
+		"folke/neodev.nvim",
 		config = function()
-			require("mason").setup({
-				ui = {
-					border = "rounded",
-					icons = {
-						package_installed = "",
-						package_uninstalled = "",
-						package_pending = "󰿣",
-					},
-				},
-			})
+			require("neodev").setup({})
 		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "tsserver", "svelte" },
-			})
-		end,
+		ft = { "lua" },
+		event = "BufEnter",
 	},
 	{
 		"neovim/nvim-lspconfig",
+		event = "BufEnter",
 		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
+			{
+				"williamboman/mason.nvim",
+				opts = {
+					ui = {
+						border = "rounded",
+						icons = {
+							package_installed = "",
+							package_uninstalled = "",
+							package_pending = "󰿣",
+						},
+					},
+				},
+			},
+			{
+				"williamboman/mason-lspconfig.nvim",
+				config = function()
+					require("mason-lspconfig").setup({
+						ensure_installed = { "lua_ls", "svelte" },
+					})
+				end,
+			},
 			{ "j-hui/fidget.nvim", opts = {} },
 		},
-		event = "VeryLazy",
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
@@ -55,7 +59,6 @@ return {
 
 			local lspconfig = require("lspconfig")
 			lspconfig.lua_ls.setup({})
-			lspconfig.tsserver.setup({})
 			lspconfig.svelte.setup({})
 			lspconfig.basedpyright.setup({
 				settings = {
@@ -69,5 +72,4 @@ return {
 			lspconfig.ruff_lsp.setup({})
 		end,
 	},
-	{ "folke/neodev.nvim", opts = {}, fs = { "lua" } },
 }

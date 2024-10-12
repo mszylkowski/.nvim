@@ -25,14 +25,14 @@ return {
 		end,
 	},
 	-- Use ":Telescope colorscheme" to try these out.
-	{
-		"projekt0n/github-nvim-theme",
-		event = "VeryLazy",
-		name = "github-theme",
-	},
-
-	{
-		"folke/tokyonight.nvim",
-		event = "VeryLazy",
-	},
+	-- {
+	-- 	"projekt0n/github-nvim-theme",
+	-- 	event = "VeryLazy",
+	-- 	name = "github-theme",
+	-- },
+	--
+	-- {
+	-- 	"folke/tokyonight.nvim",
+	-- 	event = "VeryLazy",
+	-- },
 }
