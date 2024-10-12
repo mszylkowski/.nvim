@@ -5,6 +5,18 @@ return {
 		"nvim-telescope/telescope-ui-select.nvim",
 		"marcuscaisey/olddirs.nvim",
 		"nvim-tree/nvim-web-devicons",
+		{
+			"stevearc/dressing.nvim",
+			opts = {
+				input = {
+					mappings = {
+						i = {
+							["<Esc>"] = "Close",
+						},
+					}
+				},
+			},
+		},
 	},
 	config = function()
 		local builtin = require("telescope.builtin")

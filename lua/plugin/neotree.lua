@@ -27,7 +27,9 @@ return {
 				width = 30,
 				auto_expand_width = true,
 			},
+			enable_diagnostics = false,
 			close_if_last_window = true,
+			use_popups_for_input = false,
 		})
 	end,
 }
