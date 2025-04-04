@@ -69,7 +69,7 @@ return {
 					},
 				},
 			})
-			lspconfig.ruff_lsp.setup({})
+			lspconfig.ruff.setup({})
 		end,
 	},
 }
