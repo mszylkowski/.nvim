@@ -17,4 +17,4 @@ vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Pastes without yanking" })
 
 -- leader+D deletes without yanking.
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Deletes without yanking" })
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking" })
