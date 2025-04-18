@@ -94,4 +94,6 @@ opt.foldlevel = 99
 opt.numberwidth = 3
 
 vim.g.markdown_recommended_style = 1
-opt.shell = "pwsh"
+if vim.fn.executable("pwsh") == 1 then
+	opt.shell = "pwsh"
+end
