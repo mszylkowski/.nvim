@@ -18,3 +18,7 @@ vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Pastes without yanking" })
 
 -- leader+D deletes without yanking.
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking" })
+
+-- Unmap C-I and C-M
+vim.keymap.set("n", "<C-I>", "<C-I>", { noremap = true })
+vim.keymap.set("n", "<C-M>", "<C-M>", { noremap = true })

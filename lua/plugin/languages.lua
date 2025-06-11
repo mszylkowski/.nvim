@@ -1,40 +1,33 @@
 return {
 	{
 		"folke/neodev.nvim",
-		config = function()
-			require("neodev").setup({})
-		end,
+		opts = {},
 		ft = { "lua" },
 		event = "BufEnter",
 	},
 	{
-		"neovim/nvim-lspconfig",
-		event = "BufEnter",
-		dependencies = {
-			{
-				"williamboman/mason.nvim",
-				opts = {
-					ui = {
-						border = "rounded",
-						icons = {
-							package_installed = "",
-							package_uninstalled = "",
-							package_pending = "󰿣",
-						},
-					},
+		"mason-org/mason.nvim",
+		opts = {
+			ui = {
+				border = "rounded",
+				icons = {
+					package_installed = "",
+					package_uninstalled = "",
+					package_pending = "󰿣",
 				},
 			},
-			{
-				"williamboman/mason-lspconfig.nvim",
-				config = function()
-					require("mason-lspconfig").setup({
-						automatic_installation = true,
-						ensure_installed = { "lua_ls", "svelte", "ts_ls" },
-					})
-				end,
-			},
-			{ "j-hui/fidget.nvim", opts = {} },
 		},
+	},
+	{
+		"mason-org/mason-lspconfig.nvim",
+		opts = {
+			ensure_installed = { "lua_ls", "svelte", "ts_ls" },
+		},
+	},
+	{ "j-hui/fidget.nvim", opts = {} },
+	{
+		"neovim/nvim-lspconfig",
+		event = "BufEnter",
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),

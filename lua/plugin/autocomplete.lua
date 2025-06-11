@@ -7,17 +7,17 @@ return {
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-path",
 		"onsails/lspkind.nvim",
+		"hrsh7th/cmp-buffer",
 	},
-	event = "InsertEnter",
+	event = { "InsertEnter", "CmdlineEnter" },
 	config = function()
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
 		require("luasnip.loaders.from_vscode").lazy_load()
-
 		cmp.setup({
 			snippet = {
 				expand = function(args)
-					require("luasnip").lsp_expand(args.body)
+					luasnip.lsp_expand(args.body)
 				end,
 			},
 			window = {
@@ -25,12 +25,18 @@ return {
 				documentation = cmp.config.window.bordered(),
 			},
 			completion = {
-				completeopt = "menu,menuone,noinsert,preview",
+				completeopt = "menu,menuone,noselect,preview",
+				keyword_length = 0,
+				autocomplete = {
+					cmp.TriggerEvent.TextChanged,
+					cmp.TriggerEvent.InsertEnter,
+				},
 			},
 			formatting = {
 				-- Show autocomplete symbols.
 				format = require("lspkind").cmp_format({
 					mode = "symbol",
+					symbol_map = { Codeium = "" },
 				}),
 				fields = { "kind", "abbr", "menu" },
 			},
@@ -42,16 +48,38 @@ return {
 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
 				-- Manually trigger a completion from nvim-cmp.
-				["<C-space>"] = cmp.mapping.complete(),
+				["<C-space>"] = cmp.mapping(
+					cmp.mapping.complete({
+						reason = cmp.ContextReason.Auto,
+					}),
+					{ "i", "c" }
+				),
+				["<C-a>"] = cmp.mapping(
+					cmp.mapping.complete({
+						reason = cmp.ContextReason.Auto,
+						config = {
+							sources = cmp.config.sources({ { name = "codeium", keyword_length = 0 } }),
+						},
+					}),
+					{ "i", "c" }
+				),
 				["<C-e>"] = cmp.mapping.abort(),
-				["<CR>"] = cmp.mapping.confirm({ select = true }),
+				["<CR>"] = cmp.mapping(function(fallback)
+					if cmp.visible() then
+						if luasnip.expandable() then
+							luasnip.expand()
+						else
+							cmp.confirm({ select = true })
+						end
+					else
+						fallback()
+					end
+				end),
 				["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_next_item()
-					elseif luasnip.expandable() then
-						luasnip.expand()
-					elseif luasnip.expand_or_jumpable() then
-						luasnip.expand_or_jump()
+					elseif luasnip.locally_jumpable(1) then
+						luasnip.jump(1)
 					else
 						fallback()
 					end
@@ -62,7 +90,7 @@ return {
 				["<S-Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_prev_item()
-					elseif luasnip.jumpable(-1) then
+					elseif luasnip.locally_jumpable(-1) then
 						luasnip.jump(-1)
 					else
 						fallback()
@@ -71,23 +99,13 @@ return {
 					"i",
 					"s",
 				}),
-				["<C-l>"] = cmp.mapping(function()
-					if luasnip.expand_or_locally_jumpable() then
-						luasnip.expand_or_jump()
-					end
-				end, { "i", "s" }),
-				["<C-h>"] = cmp.mapping(function()
-					if luasnip.locally_jumpable(-1) then
-						luasnip.jump(-1)
-					end
-				end),
 			}),
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
 				{ name = "buffer" },
 				{ name = "path" },
-				{ name = "codeium" },
+				-- { name = "codeium" },
 			}),
 		})
 
@@ -115,7 +133,6 @@ return {
 		})
 
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
-		-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 		local lspconfig = require("lspconfig")
 		lspconfig.lua_ls.setup({
 			capabilities = capabilities,
