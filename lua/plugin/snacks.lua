@@ -8,9 +8,9 @@ return {
 			sections = {
 				{ section = "header" },
 				{ section = "keys", padding = {1, 2} },
-				{ icon = " ", title = "Recent Files", section = "recent_files", cwd = true, padding = 1, indent = 2},
+				{ section = "recent_files", icon = " ", title = "Recent Files", cwd = true, padding = 1 },
     		{ section = "startup" },
-			}
+			},
 		},
 		explorer = {
 			replace_netrw = true,
@@ -31,6 +31,9 @@ return {
 		indent = {
 			only_current = true,
 			only_scope = true,
+			animate = {
+				enabled = false
+			}
 		},
 		input = {},
 		notifier = {},
